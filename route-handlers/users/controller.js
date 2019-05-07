@@ -25,7 +25,20 @@ const createUser = (req, res, next) => {
   );
 };
 
+const getUsersByid = (req, res, next) => {
+  const user_id = req.params.id;
+  
+  db.query(
+    'SELECT * from users where user_id = $1', [user_id], (err, result) => {
+    if (err) {
+      return next(err);
+    }
+    res.status(200).send(result.rows);
+  });
+};
+
 module.exports = {
     getUsers,
-    createUser
+    createUser,
+    getUsersByid
 }
