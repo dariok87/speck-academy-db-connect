@@ -35,8 +35,25 @@ const createHall = (req, res, next) => {
   );
 };
 
+const updateHall = (req, res, next) => {
+  const hall_id = req.params.id;
+  const { name, address, reservation, capacity } = req.body;
+  
+  db.query(
+    'UPDATE halls SET name = $1, address = $2, reservation = $3, capacity = $4 WHERE hall_id = $5',
+    [name, address, reservation, capacity, hall_id],
+    (err, results) => {
+      if (err) {
+        throw err;
+      }
+      res.status(200).send(results.rows);
+    }
+  );
+};
+
 module.exports = {
   getHalls,
   getHallByid,
-  createHall
+  createHall,
+  updateHall
 }
