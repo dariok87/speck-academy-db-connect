@@ -53,9 +53,22 @@ const updateUser = (req, res, next) => {
   );
 };
 
+const deleteUser = (req, res, next) => {
+  const user_id = req.params.id;
+  
+  db.query(
+    'DELETE FROM users WHERE user_id = $1', [user_id], (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).send(results.rows);
+  });
+};
+
 module.exports = {
     getUsers,
     createUser,
     getUsersByid,
-    updateUser
+    updateUser,
+    deleteUser
 }
