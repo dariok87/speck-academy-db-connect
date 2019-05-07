@@ -20,7 +20,23 @@ const getHallByid = (req, res, next) => {
   });
 };
 
+const createHall = (req, res, next) => {
+  const { hall_id, name, address, reservation, capacity } = req.body;
+  
+  db.query(
+    'INSERT INTO halls (hall_id, name, address, reservation, capacity) VALUES ($1, $2, $3, $4, $5)',
+    [hall_id, name, address, reservation, capacity],
+    (err, result) => {
+      if (err) {
+        return next(err);
+      }
+      res.status(201).send(result.rows);
+    }
+  );
+};
+
 module.exports = {
   getHalls,
-  getHallByid
+  getHallByid,
+  createHall
 }
