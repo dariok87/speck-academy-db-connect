@@ -1,7 +1,8 @@
 const db = require("../../db/connect");
 
 const getHalls = (req, res, next) => {
-  db.query("SELECT * FROM halls", (err, result) => {
+  db.query(
+    "SELECT * FROM halls", (err, result) => {
     if (err) {
       return  next(err);
     } 
@@ -12,7 +13,8 @@ const getHalls = (req, res, next) => {
 const getHallByid = (req, res, next) => {
   const hall_id = req.params.id;
   
-  db.query('SELECT * from halls where hall_id = $1', [hall_id], (err, result) => {
+  db.query(
+    'SELECT * from halls where hall_id = $1', [hall_id], (err, result) => {
     if (err) {
       return next(err);
     }
@@ -51,9 +53,22 @@ const updateHall = (req, res, next) => {
   );
 };
 
+const deleteHall = (req, res, next) => {
+  const hall_id = req.params.id;
+  
+  db.query(
+    'DELETE FROM halls WHERE hall_id = $1', [hall_id], (err, results) => {
+    if (err) {
+      throw err;
+    }
+    res.status(200).send(results.rows);
+  });
+};
+
 module.exports = {
   getHalls,
   getHallByid,
   createHall,
-  updateHall
+  updateHall,
+  deleteHall
 }
